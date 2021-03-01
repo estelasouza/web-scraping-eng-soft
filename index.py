@@ -25,9 +25,13 @@ for author in bs.findAll('div',{'class':'author'}):
 #esse for vai colocar o num de curtidas em cada resposta ( a class tem q ser vazia pra ele não pegar outras tags span naquela parte do código )
 for concord in bs.findAll('span',{'class':''}):
    if len(concord.text.strip()) > 9:
+      print(concord.text.strip()[9:])
       conc.append(concord.text.strip()[12:(len(concord.text.strip())-1)])
    else: 
       conc.append('99999999')
+
+# print(conc)
+# print(resp)
 #cria o dataframe
 df = pd.DataFrame({'Nome':nome,'Resp':resp,'Conc':conc})
 
