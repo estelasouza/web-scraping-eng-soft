@@ -24,29 +24,33 @@ def run(bs):
    #nome do aluno- string, resp - 1 (só tem os alunos que fizeram a atividade)
    #conc -> int (quantidade de pessoas que concordaram com a resposta) // o valor default é 99999 pq na hora de criar o dataset as colunas precisam ter o msm num de linhas 
 
-   nome = []
-   resp = []
-   conc = []
-
+   cont = 0
+   concorda = bs.findAll('span',{'class':''})
+   script_json = []
+   dataframe = {}
+   value = ''
    #esse for vai pegar o nome de todos os alunos que responderam a atividade e add o valor 1 pra futura coluna resposta
    for author in bs.findAll('div',{'class':'author'}):
-      nome.append(author.text.strip())
-      resp.append('1')
+      dataframe = {}
+      value = concorda[cont].text.strip()
+      cont += 1
+      if len(value) > 9:
+         
+         dataframe["nome"] = author.text.strip()
+         dataframe["resp"] = "1"
+         dataframe["conc"] = value[9:]
+      else:
+         dataframe["nome"] = author.text.strip()
+         dataframe["resp"] = "1"
+         dataframe["conc"] = "999999"
 
-   #esse for vai colocar o num de curtidas em cada resposta ( a class tem q ser vazia pra ele não pegar outras tags span naquela parte do código )
-   for concord in bs.findAll('span',{'class':''}):
-      if len(concord.text.strip()) > 9:
-         conc.append(concord.text.strip()[9:])
-      else: 
-         conc.append('99999999')
-
-   # print(conc)
-   # print(resp)
+      script_json.append(dataframe)
    #cria o dataframe
-   df = pd.DataFrame({'Nome':nome,'Resp':resp,'Conc':conc})
+   df = pd.DataFrame(script_json)
 
    #gera o arquivo .csv 
    df.to_csv('questao_1_inv_emp.csv')
+   
 
 
 # getUsingHtmlFile('index.html')
