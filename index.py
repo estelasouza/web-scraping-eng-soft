@@ -6,8 +6,10 @@ import pandas as pd
 """
 
 def getUsingUrl():
-   #rodar a parte do html que a gente precisa pegar na maquina ( usei a extensão do vscode live server)
-   #dai ela roda o html na porta 5500
+   """Essa função vai rodar o html que tem os dados com as informações que a gnt precisa 
+   no arquivo index.html  
+   ( usei a extensão do vscode live server)
+   dai ela roda o html na porta 5500"""
    html = urlopen("http://127.0.0.1:5500/")
    bs = BeautifulSoup(html, 'html.parser')
    run(bs)
@@ -20,16 +22,17 @@ def getUsingHtmlFile(filePath):
       run(bs)
 
 def run(bs):
-   #essas listas vão servir pra criar as linhas do csv //
-   #nome do aluno- string, resp - 1 (só tem os alunos que fizeram a atividade)
-   #conc -> int (quantidade de pessoas que concordaram com a resposta) // o valor default é 99999 pq na hora de criar o dataset as colunas precisam ter o msm num de linhas 
-
-   cont = 0
-   concorda = bs.findAll('span',{'class':''})
-   script_json = []
-   dataframe = {}
+   """ 
+   A função run vai buscar as tags que precisamos para montar nosso csv 
+   e extrair as informações contidas nessas tags
+   """
+   cont = 0 #esse contador vai servir para pegar os valores da variavel "concorda"
+   concorda = bs.findAll('span',{'class':''}) 
+   script_json = [] #irá armazenar uma lista de json com informações dos alunos 
+   dataframe = {} #irá armazenar os valores para criar as linhas do csv 
    value = ''
-   #esse for vai pegar o nome de todos os alunos que responderam a atividade e add o valor 1 pra futura coluna resposta
+   #esse for vai pegar o nome de todos os alunos que responderam e atividade e add o valor 1 para as respostas
+   # e também vai pegar a quantidade de concorda, caso ninguém tenha concordado ele atribui um valor default 
    for author in bs.findAll('div',{'class':'author'}):
       dataframe = {}
       value = concorda[cont].text.strip()
@@ -55,6 +58,7 @@ def run(bs):
 
 # getUsingHtmlFile('index.html')
 getUsingUrl()
+
 ## proximos passos :
 # concatenar os csv de cada questão do dona deda 
 # colocar na planilha do professor as pessoas que responderam a atividade 
