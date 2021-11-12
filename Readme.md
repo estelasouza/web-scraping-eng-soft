@@ -4,7 +4,7 @@ Project for the Software Engineering discipline at UFPE.
 
 Consists of a tool to keep track of the the participation of the students on the strateegia platform 
 
-test
+
 ## INSTRUCTIONS
 
 For now you just have to copy the  HTML containing the answers on the strateegia activity you choose and save it as index.html on the folder you will run the script.
